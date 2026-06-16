@@ -1,0 +1,319 @@
+.directory {
+  flex: 1;
+  overflow-y: auto;
+  padding: 20px 20px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  min-height: 0;
+}
+
+/* ─── header ─── */
+.directory-header {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.directory-breadcrumb {
+  font-size: 9px;
+  color: var(--text-dim);
+  letter-spacing: 0.06em;
+}
+
+.directory-title-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.directory-title {
+  font-family: var(--font-display);
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--text);
+  letter-spacing: 0.02em;
+}
+
+.display-badge {
+  font-size: 9px;
+  padding: 3px 8px;
+  border: 1px solid var(--border-bright);
+  color: var(--text-dim);
+  letter-spacing: 0.06em;
+}
+
+/* ─── grid ─── */
+.directory-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 12px;
+}
+
+/* ─── active card ─── */
+.project-card {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  cursor: pointer;
+  transition: border-color 0.2s, transform 0.2s;
+}
+
+.project-card:hover {
+  border-color: var(--border-bright);
+  transform: scale(1.015);
+}
+
+.project-card:hover .btn-explore { color: var(--green); }
+.project-card:hover .thumb-cell  { background: rgba(212, 255, 0, 0.12); }
+
+/* ─── awaiting card ─── */
+.project-card-awaiting {
+  cursor: default;
+  opacity: 0.55;
+  border-style: dashed;
+}
+
+.project-card-awaiting:hover {
+  border-color: var(--border);
+  transform: none;
+  opacity: 0.6;
+}
+
+/* ─── card header ─── */
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 12px;
+  border-bottom: 1px solid var(--border);
+}
+
+.card-ref {
+  font-size: 9px;
+  color: var(--text-dim);
+  letter-spacing: 0.08em;
+}
+
+.card-status {
+  font-size: 8px;
+  letter-spacing: 0.1em;
+  padding: 2px 6px;
+  border: 1px solid;
+}
+
+.status-green    { color: var(--green);    border-color: rgba(212, 255, 0, 0.3); }
+.status-purple   { color: var(--tertiary); border-color: var(--purple); }
+.status-yellow   { color: var(--yellow);   border-color: rgba(245, 166, 35, 0.3); }
+.status-dim      { color: var(--text-dim); border-color: var(--border); }
+.status-awaiting { color: var(--tertiary); border-color: var(--purple); background: var(--purple); }
+
+/* ─── card thumbnail ─── */
+.card-thumb {
+  aspect-ratio: 16/9;
+  overflow: hidden;
+  background: var(--bg);
+  position: relative;
+}
+
+.card-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.card-thumb-placeholder,
+.card-thumb-awaiting {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  background: var(--bg);
+}
+
+.thumb-grid,
+.awaiting-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 4px;
+  width: 60px;
+}
+
+.thumb-cell {
+  aspect-ratio: 1;
+  background: var(--border);
+  opacity: 0.6;
+  transition: background 0.2s;
+}
+
+.awaiting-cell {
+  aspect-ratio: 1;
+  background: rgba(42, 0, 77, 0.5);
+  opacity: 0.4;
+}
+
+.thumb-label,
+.awaiting-label {
+  font-size: 8px;
+  color: var(--text-dim);
+  letter-spacing: 0.06em;
+}
+
+/* ─── card body ─── */
+.card-body {
+  padding: 12px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.card-title {
+  font-family: var(--font-display);
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text);
+  letter-spacing: 0.02em;
+}
+
+.card-title-dim { color: var(--text-dim); }
+
+.card-subtitle {
+  font-size: 10px;
+  color: var(--green-dim);
+  line-height: 1.5;
+}
+
+.card-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin-top: 4px;
+}
+
+.tag {
+  font-size: 8px;
+  padding: 2px 6px;
+  letter-spacing: 0.08em;
+}
+
+.tag-green    { background: rgba(212, 255, 0, 0.1);  color: var(--green); }
+.tag-purple   { background: var(--purple);            color: var(--tertiary); }
+.tag-blue     { background: rgba(216, 242, 255, 0.1); color: var(--tertiary); }
+.tag-dim      { background: rgba(255,255,255,0.04);   color: var(--green-dim); }
+.tag-awaiting { background: var(--purple);            color: var(--tertiary); }
+
+/* ─── card footer ─── */
+.card-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 12px;
+  border-top: 1px solid var(--border);
+}
+
+.card-year { font-size: 9px; color: var(--text-dim); }
+
+.btn-explore {
+  background: transparent;
+  border: none;
+  color: var(--text-dim);
+  font-size: 9px;
+  font-family: var(--font-mono);
+  letter-spacing: 0.1em;
+  padding: 0;
+  transition: color 0.15s;
+  cursor: pointer;
+}
+
+.btn-explore-dim {
+  color: var(--text-dim);
+  cursor: default;
+  font-size: 9px;
+  letter-spacing: 0.1em;
+}
+
+/* ─── footer ─── */
+.directory-footer {
+  border-top: 1px solid var(--border);
+  padding: 12px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.sys-load {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.load-label {
+  font-size: 9px;
+  color: var(--text-dim);
+  letter-spacing: 0.08em;
+  min-width: 64px;
+}
+
+.load-bar {
+  flex: 1;
+  height: 3px;
+  background: var(--border);
+  max-width: 300px;
+}
+
+.load-fill {
+  height: 100%;
+  background: var(--green);
+  transition: width 1s ease;
+}
+
+.load-val {
+  font-size: 9px;
+  color: var(--green);
+  min-width: 32px;
+}
+
+.mem-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.mem-val { font-size: 9px; color: var(--text-dim); }
+
+/* ─── responsive ─── */
+@media (max-width: 900px) {
+  .directory-grid {
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  }
+}
+
+@media (max-width: 768px) {
+  .directory {
+    padding: 12px 12px 0;
+    gap: 12px;
+  }
+
+  .directory-title { font-size: 18px; }
+
+  .directory-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+  }
+
+  .load-bar { max-width: none; }
+}
+
+@media (max-width: 480px) {
+  .directory-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .card-thumb { aspect-ratio: 2/1; }
+}

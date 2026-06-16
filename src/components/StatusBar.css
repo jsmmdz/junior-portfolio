@@ -1,0 +1,23 @@
+.statusbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 28px;
+  padding: 0 16px;
+  border-top: 1px solid var(--border);
+  background: var(--panel-alt);
+  font-size: 9px;
+  letter-spacing: 0.08em;
+  color: var(--text-dim);
+  flex-shrink: 0;
+  overflow: hidden;
+}
+
+.statusbar-mid {
+  color: var(--border-bright);
+}
+
+@media (max-width: 560px) {
+  .statusbar { padding: 0 10px; }
+  .statusbar-mid { display: none; }
+}

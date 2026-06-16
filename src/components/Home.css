@@ -1,0 +1,265 @@
+.home {
+  width: 100vw;
+  height: 100vh;
+  background: var(--bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  transition: opacity 0.35s ease;
+}
+
+.home-out {
+  opacity: 0;
+}
+
+.home::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(212, 255, 0, 0.012) 2px,
+    rgba(212, 255, 0, 0.012) 4px
+  );
+  pointer-events: none;
+}
+
+.home-window {
+  width: min(640px, 92vw);
+  border: 1px solid var(--border);
+  background: var(--panel);
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  z-index: 1;
+}
+
+.home-window-terminated {
+  border-color: rgba(229, 72, 77, 0.3);
+}
+
+/* ─── titlebar ─── */
+.home-titlebar {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 12px;
+  border-bottom: 1px solid var(--border);
+  background: var(--panel-alt);
+  flex-shrink: 0;
+}
+
+.dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+}
+.dot-red    { background: #e5484d; }
+.dot-yellow { background: #f5a623; }
+.dot-green  { background: var(--green); }
+
+.titlebar-path {
+  margin-left: auto;
+  font-size: 10px;
+  color: var(--text-dim);
+  letter-spacing: 0.05em;
+}
+
+/* ─── body ─── */
+.home-body {
+  padding: 24px 28px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+
+.home-terminal {
+  min-height: 76px;
+}
+
+.boot-line {
+  font-size: 11px;
+  color: var(--green-dim);
+  line-height: 1.8;
+  letter-spacing: 0.02em;
+}
+
+.line-terminated {
+  color: var(--red);
+}
+
+.cursor-blink {
+  color: var(--green);
+}
+
+/* ─── brand + actions ─── */
+.home-content {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 24px;
+}
+
+.home-brand { flex: 1; }
+
+.brand-name {
+  display: flex;
+  flex-direction: column;
+  line-height: 0.92;
+  font-family: var(--font-display);
+}
+
+.brand-first {
+  font-size: 42px;
+  font-weight: 700;
+  color: var(--text);
+  letter-spacing: -0.02em;
+}
+
+.brand-last {
+  font-size: 42px;
+  font-weight: 700;
+  color: var(--green);
+  letter-spacing: -0.02em;
+}
+
+.brand-portfolio {
+  font-size: 42px;
+  font-weight: 700;
+  color: var(--text);
+  letter-spacing: -0.02em;
+}
+
+/* ─── action buttons ─── */
+.home-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  min-width: 160px;
+}
+
+.btn-primary {
+  background: transparent;
+  border: 1px solid var(--green);
+  color: var(--green);
+  font-size: 11px;
+  padding: 10px 20px;
+  letter-spacing: 0.1em;
+  transition: background 0.15s, color 0.15s;
+}
+
+.btn-primary:hover {
+  background: var(--green);
+  color: var(--bg);
+}
+
+.btn-secondary {
+  background: transparent;
+  border: 1px solid var(--border-bright);
+  color: var(--green-dim);
+  font-size: 11px;
+  padding: 10px 20px;
+  letter-spacing: 0.1em;
+  transition: border-color 0.15s, color 0.15s;
+}
+
+.btn-secondary:hover {
+  border-color: var(--green-dim);
+  color: var(--text);
+}
+
+/* ─── tagline ─── */
+.home-tagline {
+  font-size: 11px;
+  color: var(--green-dim);
+  line-height: 1.7;
+}
+
+.tagline-accent {
+  color: var(--green);
+}
+
+/* ─── terminated state ─── */
+.terminated-block {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 16px;
+  padding-top: 8px;
+}
+
+.terminated-msg {
+  font-size: 9px;
+  color: var(--text-dim);
+  letter-spacing: 0.08em;
+}
+
+/* ─── status bar ─── */
+.home-statusbar {
+  display: flex;
+  justify-content: space-between;
+  padding: 6px 12px;
+  border-top: 1px solid var(--border);
+  background: var(--panel-alt);
+  font-size: 9px;
+  color: var(--text-dim);
+  letter-spacing: 0.08em;
+  flex-shrink: 0;
+}
+
+/* ─── responsive ─── */
+@media (max-width: 560px) {
+  .home-body {
+    padding: 16px 16px 14px;
+    gap: 20px;
+  }
+
+  .home-terminal {
+    min-height: 60px;
+  }
+
+  .home-content {
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .brand-first,
+  .brand-last,
+  .brand-portfolio {
+    font-size: 30px;
+  }
+
+  .home-actions {
+    min-width: auto;
+    width: 100%;
+  }
+
+  .btn-primary,
+  .btn-secondary {
+    width: 100%;
+    text-align: center;
+  }
+
+  .home-tagline {
+    font-size: 10px;
+  }
+
+  .home-tagline br {
+    display: none;
+  }
+}
+
+@media (max-width: 380px) {
+  .brand-first,
+  .brand-last,
+  .brand-portfolio {
+    font-size: 24px;
+  }
+
+  .boot-line {
+    font-size: 9px;
+  }
+}

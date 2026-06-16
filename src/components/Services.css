@@ -1,0 +1,234 @@
+.services {
+  flex: 1;
+  overflow-y: auto;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  min-height: 0;
+}
+
+/* ─── header ─── */
+.services-header {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.services-breadcrumb {
+  font-size: 9px;
+  color: var(--text-dim);
+  letter-spacing: 0.06em;
+}
+
+.services-title {
+  font-family: var(--font-display);
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--text);
+  letter-spacing: 0.02em;
+}
+
+/* ─── grid ─── */
+.services-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 12px;
+}
+
+/* ─── card animation ─── */
+@keyframes node-in {
+  from { opacity: 0; transform: translateY(22px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.svc-card {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  transition: border-color 0.2s;
+  animation: node-in 0.45s ease both;
+}
+
+.svc-card:hover { border-color: var(--border-bright); }
+
+.svc-card-green:hover  { border-color: rgba(212, 255, 0, 0.3); }
+.svc-card-purple:hover { border-color: rgba(216, 242, 255, 0.15); }
+
+/* ─── card header ─── */
+.svc-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 12px;
+  border-bottom: 1px solid var(--border);
+  background: var(--panel-alt);
+}
+
+.svc-ref {
+  font-size: 9px;
+  color: var(--text-dim);
+  letter-spacing: 0.08em;
+}
+
+.svc-status {
+  font-size: 8px;
+  padding: 2px 6px;
+  border: 1px solid;
+  letter-spacing: 0.08em;
+}
+
+.status-green  { color: var(--green);    border-color: rgba(212, 255, 0, 0.3); }
+.status-purple { color: var(--tertiary); border-color: var(--purple); }
+
+/* ─── card body ─── */
+.svc-body {
+  padding: 14px 12px 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  flex: 1;
+}
+
+.svc-title-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.svc-icon   { font-size: 14px; }
+.icon-green  { color: var(--green); }
+.icon-purple { color: var(--tertiary); }
+
+.svc-title {
+  font-family: var(--font-display);
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: var(--text);
+}
+
+.svc-sub-label {
+  font-size: 9px;
+  color: var(--tertiary);
+  letter-spacing: 0.06em;
+}
+
+.svc-desc {
+  font-size: 10px;
+  color: var(--green-dim);
+  line-height: 1.6;
+}
+
+/* ─── card footer ─── */
+.svc-footer {
+  padding: 10px 12px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  border-top: 1px solid var(--border);
+}
+
+.svc-skill-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.skill-label {
+  font-size: 8px;
+  color: var(--text-dim);
+  letter-spacing: 0.08em;
+  min-width: 60px;
+}
+
+.skill-bar {
+  flex: 1;
+  height: 2px;
+  background: var(--border);
+}
+
+.skill-fill          { height: 100%; }
+.skill-fill-green    { background: var(--green); }
+.skill-fill-purple   { background: var(--tertiary); }
+
+.skill-val {
+  font-size: 8px;
+  color: var(--text-dim);
+  min-width: 28px;
+  text-align: right;
+}
+
+.svc-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+.svc-tag {
+  font-size: 8px;
+  padding: 2px 6px;
+  background: rgba(255,255,255,0.04);
+  color: var(--text-dim);
+  letter-spacing: 0.06em;
+}
+
+.svc-status-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 9px;
+}
+
+.status-label       { color: var(--text-dim); }
+.status-val-green   { color: var(--green); }
+.status-val-purple  { color: var(--tertiary); }
+
+/* ─── footer ─── */
+.services-footer {
+  border-top: 1px solid var(--border);
+  padding-top: 12px;
+}
+
+.svc-load-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.load-label {
+  font-size: 9px;
+  color: var(--text-dim);
+  letter-spacing: 0.08em;
+  min-width: 64px;
+}
+
+.svc-bar {
+  flex: 1;
+  height: 3px;
+  background: var(--border);
+  max-width: 300px;
+}
+
+.svc-bar-fill {
+  height: 100%;
+  background: var(--green);
+}
+
+.load-val { font-size: 9px; color: var(--green); }
+
+/* ─── responsive ─── */
+@media (max-width: 768px) {
+  .services { padding: 12px; gap: 12px; }
+
+  .services-grid {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  .svc-bar { max-width: none; }
+}
+
+@media (max-width: 480px) {
+  .services-title { font-size: 18px; }
+}
