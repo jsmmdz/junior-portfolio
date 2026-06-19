@@ -35,7 +35,7 @@
   letter-spacing: 0.12em;
   padding: 0 12px;
   height: 40px;
-  transition: color 0.15s;
+  transition: color var(--dur-2) var(--ease-out);
   position: relative;
   font-family: var(--font-mono);
 }
@@ -43,7 +43,7 @@
 .nav-link:hover  { color: var(--text); }
 .nav-link.active { color: var(--green); }
 
-.nav-link.active::after {
+.nav-link::after {
   content: '';
   position: absolute;
   bottom: 0;
@@ -51,7 +51,13 @@
   right: 12px;
   height: 1px;
   background: var(--green);
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform var(--dur-3) var(--ease-out);
 }
+
+.nav-link:hover::after { transform: scaleX(0.4); background: var(--green-dim); }
+.nav-link.active::after { transform: scaleX(1); box-shadow: 0 0 8px rgba(212, 255, 0, 0.6); }
 
 .nav-right {
   display: flex;
@@ -62,9 +68,10 @@
 
 .nav-icon {
   cursor: pointer;
-  transition: color 0.15s;
+  transition: color var(--dur-2) var(--ease-out),
+              transform var(--dur-3) var(--ease-spring);
 }
-.nav-icon:hover { color: var(--green); }
+.nav-icon:hover { color: var(--green); transform: rotate(90deg); }
 
 /* ─── responsive ─── */
 @media (max-width: 768px) {

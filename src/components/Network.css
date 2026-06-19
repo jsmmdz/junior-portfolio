@@ -46,7 +46,7 @@
 
 .net-title {
   font-family: var(--font-display);
-  font-size: 22px;
+  font-size: var(--fs-h2);
   font-weight: 700;
   color: var(--text);
   letter-spacing: 0.02em;
@@ -89,20 +89,29 @@
   background: transparent;
   border: 1px solid var(--border);
   color: var(--green-dim);
-  width: 28px;
-  height: 28px;
+  width: 30px;
+  height: 30px;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
   font-size: 12px;
-  transition: border-color 0.15s, color 0.15s;
+  transition: border-color var(--dur-2) var(--ease-out),
+              color var(--dur-2) var(--ease-out),
+              box-shadow var(--dur-2) var(--ease-out),
+              transform var(--dur-2) var(--ease-spring);
 }
 
-.social-link:hover {
+.social-link:hover,
+.social-link:focus-visible {
   border-color: var(--green);
   color: var(--green);
+  box-shadow: var(--glow-green);
+  transform: translateY(-2px);
 }
+.social-link:active { transform: translateY(0) scale(0.94); }
+.social-item:hover .social-handle { color: var(--green); }
+.social-handle { transition: color var(--dur-2) var(--ease-out); }
 
 .net-status {
   display: flex;
@@ -170,6 +179,20 @@
   justify-content: center;
   color: var(--green);
   font-size: 20px;
+  box-shadow: var(--glow-green), inset 0 0 16px rgba(212, 255, 0, 0.1);
+  animation: success-pop 0.5s var(--ease-spring) both;
+}
+
+@keyframes success-pop {
+  0%   { opacity: 0; transform: scale(0.4); }
+  100% { opacity: 1; transform: scale(1); }
+}
+
+.form-success { animation: fade-rise 0.45s var(--ease-out) both; }
+
+@keyframes fade-rise {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: none; }
 }
 
 .success-msg  { font-size: 13px; color: var(--green); letter-spacing: 0.08em; }
@@ -185,9 +208,13 @@
   cursor: pointer;
   letter-spacing: 0.1em;
   margin-top: 8px;
-  transition: border-color 0.15s, color 0.15s;
+  transition: border-color var(--dur-2) var(--ease-out),
+              color var(--dur-2) var(--ease-out),
+              box-shadow var(--dur-2) var(--ease-out),
+              transform var(--dur-1) var(--ease-out);
 }
-.btn-new:hover { border-color: var(--green); color: var(--green); }
+.btn-new:hover { border-color: var(--green); color: var(--green); box-shadow: var(--glow-green); }
+.btn-new:active { transform: translateY(1px); }
 
 /* ─── contact form ─── */
 .contact-form {
@@ -223,12 +250,16 @@
   padding: 8px 10px;
   outline: none;
   resize: vertical;
-  transition: border-color 0.15s;
+  transition: border-color var(--dur-2) var(--ease-out),
+              box-shadow var(--dur-2) var(--ease-out);
   width: 100%;
 }
 
 .field-input:focus,
-.field-textarea:focus { border-color: var(--border-bright); }
+.field-textarea:focus {
+  border-color: var(--green-dim);
+  box-shadow: 0 0 0 1px rgba(212, 255, 0, 0.12), inset 0 0 12px rgba(212, 255, 0, 0.04);
+}
 
 .input-error { border-color: var(--red) !important; }
 
@@ -245,13 +276,18 @@
   letter-spacing: 0.1em;
   cursor: pointer;
   align-self: flex-start;
-  transition: background 0.15s, color 0.15s;
+  transition: background var(--dur-2) var(--ease-out),
+              color var(--dur-2) var(--ease-out),
+              box-shadow var(--dur-2) var(--ease-out),
+              transform var(--dur-1) var(--ease-out);
 }
 
 .btn-send:hover:not(:disabled) {
   background: var(--green);
   color: var(--bg);
+  box-shadow: var(--glow-green-strong);
 }
+.btn-send:active:not(:disabled) { transform: translateY(1px); box-shadow: none; }
 
 .btn-send:disabled { opacity: 0.5; cursor: not-allowed; }
 
@@ -267,6 +303,15 @@
 }
 
 @media (max-width: 480px) {
-  .net-title { font-size: 18px; }
   .btn-send  { width: 100%; align-self: stretch; text-align: center; }
+}
+
+/* touch devices: meet 44px minimum target */
+@media (pointer: coarse) {
+  .social-link { width: 44px; height: 44px; }
+}
+
+/* ultrawide: keep the contact module from drifting too wide */
+@media (min-width: 1600px) {
+  .network-inner { max-width: 1000px; gap: 20px; }
 }

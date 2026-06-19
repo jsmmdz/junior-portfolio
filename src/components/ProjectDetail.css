@@ -26,9 +26,12 @@
   cursor: pointer;
   letter-spacing: 0.08em;
   padding: 0;
-  transition: opacity 0.15s;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  transition: gap var(--dur-2) var(--ease-out), text-shadow var(--dur-2) var(--ease-out);
 }
-.back-btn:hover { opacity: 0.7; }
+.back-btn:hover { gap: 8px; text-shadow: 0 0 12px rgba(212, 255, 0, 0.5); }
 
 .bc-sep     { color: var(--text-dim); margin: 0 8px; font-size: 10px; }
 .bc-current { font-size: 10px; color: var(--green-dim); letter-spacing: 0.06em; }
@@ -126,12 +129,13 @@
 
 .info-card-title {
   font-family: var(--font-display);
-  font-size: 30px;
+  font-size: var(--fs-h1);
   font-weight: 700;
   color: var(--green);
   letter-spacing: -0.02em;
   line-height: 1;
   margin-top: 4px;
+  text-shadow: 0 0 24px rgba(212, 255, 0, 0.2);
 }
 
 .info-card-sub {
@@ -170,9 +174,13 @@
   padding: 5px 12px;
   letter-spacing: 0.08em;
   cursor: pointer;
-  transition: background 0.15s, color 0.15s;
+  transition: background var(--dur-2) var(--ease-out),
+              color var(--dur-2) var(--ease-out),
+              box-shadow var(--dur-2) var(--ease-out),
+              transform var(--dur-1) var(--ease-out);
 }
-.btn-ejecutar:hover { background: var(--green); color: var(--bg); }
+.btn-ejecutar:hover { background: var(--green); color: var(--bg); box-shadow: var(--glow-green-strong); }
+.btn-ejecutar:active { transform: translateY(1px); box-shadow: none; }
 
 .btn-cotizar {
   background: transparent;
@@ -183,9 +191,12 @@
   padding: 5px 12px;
   letter-spacing: 0.08em;
   cursor: pointer;
-  transition: border-color 0.15s, color 0.15s;
+  transition: border-color var(--dur-2) var(--ease-out),
+              color var(--dur-2) var(--ease-out),
+              transform var(--dur-1) var(--ease-out);
 }
 .btn-cotizar:hover { border-color: var(--green-dim); color: var(--text); }
+.btn-cotizar:active { transform: translateY(1px); }
 
 /* ── render / asset area ── */
 .hero-render {
@@ -462,9 +473,11 @@
   padding: 2px 8px;
   cursor: pointer;
   letter-spacing: 0.08em;
-  transition: border-color 0.15s, color 0.15s;
+  transition: border-color var(--dur-2) var(--ease-out),
+              color var(--dur-2) var(--ease-out),
+              box-shadow var(--dur-2) var(--ease-out);
 }
-.panel-btn:hover { border-color: var(--green-dim); color: var(--text); }
+.panel-btn:hover { border-color: var(--green-dim); color: var(--text); box-shadow: var(--glow-green); }
 
 /* ─── viewer ─── */
 .viewer-panel { overflow: hidden; }
@@ -597,13 +610,17 @@
   padding: 6px;
   letter-spacing: 0.1em;
   cursor: pointer;
-  transition: background 0.15s, color 0.15s;
+  transition: background var(--dur-2) var(--ease-out),
+              color var(--dur-2) var(--ease-out),
+              box-shadow var(--dur-2) var(--ease-out),
+              transform var(--dur-1) var(--ease-out);
 }
+.action-btn:active { transform: translateY(1px); box-shadow: none; }
 
 .action-exec { border-color: var(--green); color: var(--green); }
-.action-exec:hover { background: var(--green); color: var(--bg); }
+.action-exec:hover { background: var(--green); color: var(--bg); box-shadow: var(--glow-green-strong); }
 .action-abort { border-color: var(--red); color: var(--red); }
-.action-abort:hover { background: var(--red); color: #fff; }
+.action-abort:hover { background: var(--red); color: #fff; box-shadow: var(--glow-red); }
 
 /* ─── metrics ─── */
 .metrics-panel { padding-bottom: 12px; }
@@ -624,9 +641,15 @@
 }
 
 .metric-bar-wrap { flex: 1; }
-.metric-bar  { height: 3px; background: var(--border); }
-.metric-fill { height: 100%; background: var(--green); }
-.metric-fill-purple { background: var(--tertiary); }
+.metric-bar  { height: 3px; background: var(--border); overflow: hidden; }
+.metric-fill {
+  height: 100%;
+  background: var(--green);
+  box-shadow: 0 0 8px rgba(212, 255, 0, 0.5);
+  transform-origin: left center;
+  animation: bar-grow 0.9s var(--ease-out) both;
+}
+.metric-fill-purple { background: var(--tertiary); box-shadow: 0 0 8px rgba(216, 242, 255, 0.4); }
 
 .metric-pct {
   font-size: 9px;

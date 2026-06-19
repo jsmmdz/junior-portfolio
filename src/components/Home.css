@@ -1,6 +1,7 @@
 .home {
   width: 100vw;
   height: 100vh;
+  height: 100dvh;
   background: var(--bg);
   display: flex;
   align-items: center;
@@ -28,13 +29,20 @@
 }
 
 .home-window {
-  width: min(640px, 92vw);
+  width: min(92vw, clamp(560px, 44vw, 760px));
   border: 1px solid var(--border);
   background: var(--panel);
   display: flex;
   flex-direction: column;
   position: relative;
   z-index: 1;
+  animation: window-in 0.5s var(--ease-out) both;
+  box-shadow: 0 24px 80px rgba(0, 0, 0, 0.6);
+}
+
+@keyframes window-in {
+  from { opacity: 0; transform: translateY(16px) scale(0.985); }
+  to   { opacity: 1; transform: none; }
 }
 
 .home-window-terminated {
@@ -112,22 +120,24 @@
   font-family: var(--font-display);
 }
 
-.brand-first {
-  font-size: 42px;
+/* scoped under .brand-name so these do NOT leak to the Nav's .brand-first/.brand-last */
+.brand-name .brand-first {
+  font-size: var(--fs-display);
   font-weight: 700;
   color: var(--text);
   letter-spacing: -0.02em;
 }
 
-.brand-last {
-  font-size: 42px;
+.brand-name .brand-last {
+  font-size: var(--fs-display);
   font-weight: 700;
   color: var(--green);
   letter-spacing: -0.02em;
+  text-shadow: 0 0 24px rgba(212, 255, 0, 0.25);
 }
 
-.brand-portfolio {
-  font-size: 42px;
+.brand-name .brand-portfolio {
+  font-size: var(--fs-display);
   font-weight: 700;
   color: var(--text);
   letter-spacing: -0.02em;
@@ -148,13 +158,18 @@
   font-size: 11px;
   padding: 10px 20px;
   letter-spacing: 0.1em;
-  transition: background 0.15s, color 0.15s;
+  transition: background var(--dur-2) var(--ease-out),
+              color var(--dur-2) var(--ease-out),
+              box-shadow var(--dur-2) var(--ease-out),
+              transform var(--dur-1) var(--ease-out);
 }
 
 .btn-primary:hover {
   background: var(--green);
   color: var(--bg);
+  box-shadow: var(--glow-green-strong);
 }
+.btn-primary:active { transform: translateY(1px); box-shadow: none; }
 
 .btn-secondary {
   background: transparent;
@@ -163,13 +178,16 @@
   font-size: 11px;
   padding: 10px 20px;
   letter-spacing: 0.1em;
-  transition: border-color 0.15s, color 0.15s;
+  transition: border-color var(--dur-2) var(--ease-out),
+              color var(--dur-2) var(--ease-out),
+              transform var(--dur-1) var(--ease-out);
 }
 
 .btn-secondary:hover {
   border-color: var(--green-dim);
   color: var(--text);
 }
+.btn-secondary:active { transform: translateY(1px); }
 
 /* ─── tagline ─── */
 .home-tagline {
@@ -226,12 +244,6 @@
     gap: 20px;
   }
 
-  .brand-first,
-  .brand-last,
-  .brand-portfolio {
-    font-size: 30px;
-  }
-
   .home-actions {
     min-width: auto;
     width: 100%;
@@ -253,12 +265,6 @@
 }
 
 @media (max-width: 380px) {
-  .brand-first,
-  .brand-last,
-  .brand-portfolio {
-    font-size: 24px;
-  }
-
   .boot-line {
     font-size: 9px;
   }

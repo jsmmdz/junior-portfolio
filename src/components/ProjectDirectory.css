@@ -30,7 +30,7 @@
 
 .directory-title {
   font-family: var(--font-display);
-  font-size: 22px;
+  font-size: var(--fs-h2);
   font-weight: 700;
   color: var(--text);
   letter-spacing: 0.02em;
@@ -49,6 +49,7 @@
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
   gap: 12px;
+  min-width: 0;
 }
 
 /* ─── active card ─── */
@@ -58,16 +59,22 @@
   display: flex;
   flex-direction: column;
   cursor: pointer;
-  transition: border-color 0.2s, transform 0.2s;
+  min-width: 0; /* allow grid item to shrink to its track (prevents aspect-ratio blowout) */
+  /* transition list is inherited from .reveal-stagger > * (single source) */
 }
 
-.project-card:hover {
-  border-color: var(--border-bright);
-  transform: scale(1.015);
+.project-card:hover,
+.project-card:focus-visible {
+  border-color: var(--green-dim);
+  box-shadow: var(--glow-green-strong);
 }
 
-.project-card:hover .btn-explore { color: var(--green); }
-.project-card:hover .thumb-cell  { background: rgba(212, 255, 0, 0.12); }
+.project-card:hover .btn-explore,
+.project-card:focus-visible .btn-explore { color: var(--green); }
+.project-card:hover .thumb-cell,
+.project-card:focus-visible .thumb-cell { background: rgba(212, 255, 0, 0.12); }
+.project-card:hover img,
+.project-card:focus-visible img { transform: scale(1.04); }
 
 /* ─── awaiting card ─── */
 .project-card-awaiting {
@@ -122,6 +129,7 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
+  transition: transform var(--dur-3) var(--ease-out);
 }
 
 .card-thumb-placeholder,
@@ -175,7 +183,7 @@
 
 .card-title {
   font-family: var(--font-display);
-  font-size: 14px;
+  font-size: var(--fs-card-title);
   font-weight: 600;
   color: var(--text);
   letter-spacing: 0.02em;
@@ -227,9 +235,10 @@
   font-family: var(--font-mono);
   letter-spacing: 0.1em;
   padding: 0;
-  transition: color 0.15s;
+  transition: color var(--dur-1) var(--ease-out), letter-spacing var(--dur-2) var(--ease-out);
   cursor: pointer;
 }
+.btn-explore:hover { color: var(--green); letter-spacing: 0.18em; }
 
 .btn-explore-dim {
   color: var(--text-dim);
@@ -270,7 +279,9 @@
 .load-fill {
   height: 100%;
   background: var(--green);
-  transition: width 1s ease;
+  box-shadow: 0 0 8px rgba(212, 255, 0, 0.5);
+  transform-origin: left center;
+  animation: bar-grow 1s var(--ease-out) both;
 }
 
 .load-val {
@@ -288,6 +299,15 @@
 .mem-val { font-size: 9px; color: var(--text-dim); }
 
 /* ─── responsive ─── */
+/* ultrawide: more breathing room, larger cards, capped width */
+@media (min-width: 1600px) {
+  .directory { padding: 28px clamp(20px, 3.5vw, 72px) 0; }
+  .directory-grid {
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 16px;
+  }
+}
+
 @media (max-width: 900px) {
   .directory-grid {
     grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));

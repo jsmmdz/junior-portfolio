@@ -1,11 +1,12 @@
 import './Services.css'
 import { services } from '../data/projects'
+import useReveal from '../hooks/useReveal'
 
 function ServiceCard({ svc, index }) {
   return (
     <div
       className={`svc-card svc-card-${svc.color}`}
-      style={{ animationDelay: `${index * 0.12}s` }}
+      style={{ '--reveal-i': index }}
     >
       <div className="svc-header">
         <span className="svc-ref">{svc.ref}</span>
@@ -53,14 +54,17 @@ function ServiceCard({ svc, index }) {
 }
 
 export default function Services() {
+  const headerRef = useReveal()
+  const gridRef = useReveal({ threshold: 0.05 })
+
   return (
     <div className="services">
-      <div className="services-header">
+      <div className="services-header reveal" ref={headerRef}>
         <div className="services-breadcrumb">SYS / NODE_DIRECTORY</div>
         <h2 className="services-title">SERVICES</h2>
       </div>
 
-      <div className="services-grid">
+      <div className="services-grid reveal-stagger" ref={gridRef}>
         {services.map((svc, i) => (
           <ServiceCard key={svc.id} svc={svc} index={i} />
         ))}

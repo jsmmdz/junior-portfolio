@@ -1,4 +1,5 @@
 :root {
+  /* ─────────── Core palette ─────────── */
   --bg: #0A0A0A;
   --panel: #111311;
   --panel-alt: #0d0f0d;
@@ -12,8 +13,35 @@
   --yellow: #F5A623;
   --border: #1C1C1C;
   --border-bright: #2A2A2A;
+
+  /* ─────────── Type families ─────────── */
   --font-mono: 'JetBrains Mono', 'Courier New', monospace;
   --font-display: 'Space Grotesk', sans-serif;
+
+  /* ─────────── Fluid type scale ───────────
+     clamp(min, vw-preferred, max) — px-based because root is 12px.
+     Scales elegantly from 360px mobile up to ultrawide. */
+  --fs-display:    clamp(30px, 4.5vw + 8px, 56px);  /* brand name */
+  --fs-h1:         clamp(24px, 2.6vw + 6px, 34px);  /* hero / detail title */
+  --fs-h2:         clamp(18px, 1.4vw + 8px, 26px);  /* section titles */
+  --fs-card-title: clamp(13px, 0.5vw + 11px, 16px); /* card titles */
+
+  /* ─────────── Motion tokens ─────────── */
+  --ease-out:    cubic-bezier(0.16, 1, 0.3, 1);     /* premium decelerate */
+  --ease-spring: cubic-bezier(0.34, 1.4, 0.5, 1);   /* subtle overshoot */
+  --dur-1: 140ms;   /* micro-interaction */
+  --dur-2: 220ms;   /* standard */
+  --dur-3: 360ms;   /* emphatic */
+  --reveal-dur: 720ms;
+
+  /* ─────────── Glow / elevation ─────────── */
+  --glow-green:        0 0 18px rgba(212, 255, 0, 0.16);
+  --glow-green-strong: 0 6px 26px rgba(212, 255, 0, 0.20);
+  --glow-purple:       0 0 22px rgba(216, 242, 255, 0.16);
+  --glow-red:          0 0 22px rgba(229, 72, 77, 0.40);
+
+  /* ─────────── Focus ring (a11y) ─────────── */
+  --focus-color: rgba(212, 255, 0, 0.7);
 
   font-family: var(--font-mono);
   font-size: 12px;
@@ -22,6 +50,7 @@
   background: var(--bg);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
 }
 
 *, *::before, *::after {
@@ -30,12 +59,17 @@
   padding: 0;
 }
 
+html, body { height: 100%; }
+
 body {
   margin: 0;
   background: var(--bg);
   overflow: hidden;
   height: 100vh;
+  height: 100dvh;          /* dynamic viewport: no jump behind mobile browser chrome */
   width: 100vw;
+  width: 100dvw;
+  overscroll-behavior: none;
 }
 
 #root {
@@ -53,15 +87,78 @@ a { color: inherit; text-decoration: none; }
 
 input, textarea { font-family: var(--font-mono); }
 
-::-webkit-scrollbar { width: 3px; height: 3px; }
-::-webkit-scrollbar-track { background: var(--panel); }
-::-webkit-scrollbar-thumb { background: var(--border-bright); }
-::-webkit-scrollbar-thumb:hover { background: var(--green-dim); }
+/* ─────────── Unified keyboard focus (outline = not clipped by overflow:hidden, no layout shift) ─────────── */
+:focus { outline: none; }
+:focus-visible {
+  outline: 2px solid var(--focus-color);
+  outline-offset: 2px;
+}
 
+/* ─────────── Scrollbar ─────────── */
+::-webkit-scrollbar { width: 4px; height: 4px; }
+::-webkit-scrollbar-track { background: var(--panel); }
+::-webkit-scrollbar-thumb { background: var(--border-bright); border-radius: 2px; }
+::-webkit-scrollbar-thumb:hover { background: var(--green-dim); }
+* { scrollbar-width: thin; scrollbar-color: var(--border-bright) var(--panel); }
+
+/* ════════════════════════════════════════════════════════
+   SCROLL-REVEAL PRIMITIVES  (driven by useReveal / IntersectionObserver)
+   Only opacity + transform animate → stays on the compositor at 60fps.
+   ════════════════════════════════════════════════════════ */
+.reveal {
+  opacity: 0;
+  transform: translate3d(0, var(--reveal-shift, 18px), 0);
+  transition: opacity var(--reveal-dur) var(--ease-out),
+              transform var(--reveal-dur) var(--ease-out);
+  transition-delay: calc(var(--reveal-i, 0) * 55ms);
+  will-change: opacity, transform;
+}
+.reveal.in-view {
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
+  will-change: auto;
+}
+
+/* staggered children: parent gets .in-view, each child reads --reveal-i.
+   The transition list lives here (single source) so card hover states never
+   fight the reveal's transform. Per-property delay → only opacity+transform
+   stagger; hover props (border/shadow/color) stay instant. */
+.reveal-stagger > * {
+  opacity: 0;
+  transform: translate3d(0, var(--reveal-shift, 16px), 0);
+  transition:
+    opacity var(--reveal-dur) var(--ease-out),
+    transform var(--dur-3) var(--ease-out),
+    border-color var(--dur-2) var(--ease-out),
+    box-shadow var(--dur-2) var(--ease-out),
+    color var(--dur-2) var(--ease-out);
+}
+.reveal-stagger.in-view > * {
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
+  transition-delay:
+    calc(var(--reveal-i, 0) * 55ms),
+    calc(var(--reveal-i, 0) * 55ms),
+    0ms, 0ms, 0ms;
+}
+
+/* progress / meter bars fill from the left on mount (GPU scaleX) */
+@keyframes bar-grow {
+  from { transform: scaleX(0); }
+  to   { transform: scaleX(1); }
+}
+
+/* ─────────── Reduced motion: reveal instantly, no movement ─────────── */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  .reveal,
+  .reveal-stagger > * {
+    opacity: 1 !important;
+    transform: none !important;
   }
 }

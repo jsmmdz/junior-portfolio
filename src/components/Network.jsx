@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import './Network.css'
+import useReveal from '../hooks/useReveal'
 
 const SOCIALS = [
   { label: 'LINKEDIN', handle: 'junior-mejia', icon: '↗' },
@@ -44,10 +45,12 @@ export default function Network() {
     setStatus(null)
   }
 
+  const innerRef = useReveal({ threshold: 0.05 })
+
   return (
     <div className="network">
-      <div className="network-inner">
-        <div className="network-left">
+      <div className="network-inner reveal-stagger" ref={innerRef}>
+        <div className="network-left" style={{ '--reveal-i': 0 }}>
           <div className="net-panel">
             <div className="net-panel-header">
               <span className="net-ref">NET_CHANNELS // v1.0</span>
@@ -76,7 +79,7 @@ export default function Network() {
           </div>
         </div>
 
-        <div className="network-right">
+        <div className="network-right" style={{ '--reveal-i': 1 }}>
           <div className="net-panel form-panel">
             <div className="net-panel-header">
               <span className="net-ref">MESSAGE_COMPOSE // SECURE</span>

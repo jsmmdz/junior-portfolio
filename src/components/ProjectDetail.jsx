@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import './ProjectDetail.css'
+import useReveal from '../hooks/useReveal'
 
 const LOG_COLORS = { info: '', error: 'log-error', success: 'log-success' }
 
@@ -27,10 +28,12 @@ export default function ProjectDetail({ project, onBack }) {
 
   const perfVal = project.metrics.performance !== '—' ? project.metrics.performance : '14'
 
+  const detailRef = useReveal({ threshold: 0.01 })
+
   return (
-    <div className="detail">
+    <div className="detail reveal-stagger" ref={detailRef}>
       {/* ── Topbar ── */}
-      <div className="detail-topbar">
+      <div className="detail-topbar" style={{ '--reveal-i': 0 }}>
         <div className="detail-breadcrumb">
           <button className="back-btn" onClick={onBack}>← DIRECTORY</button>
           <span className="bc-sep">/</span>
@@ -40,7 +43,7 @@ export default function ProjectDetail({ project, onBack }) {
       </div>
 
       {/* ── Hero section ── */}
-      <div className="detail-hero">
+      <div className="detail-hero" style={{ '--reveal-i': 1 }}>
         {/* CORE_CONTAINER panel */}
         <div className="hero-core">
           <div className="hero-core-header">
@@ -133,7 +136,7 @@ export default function ProjectDetail({ project, onBack }) {
       </div>
 
       {/* ── 3-column dashboard ── */}
-      <div className="detail-layout">
+      <div className="detail-layout" style={{ '--reveal-i': 2 }}>
         {/* Left: viewer + metrics */}
         <div className="detail-left">
           <div className="detail-panel viewer-panel">

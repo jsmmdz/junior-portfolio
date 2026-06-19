@@ -1,5 +1,6 @@
 import './ProjectDirectory.css'
 import { projects } from '../data/projects'
+import useReveal from '../hooks/useReveal'
 
 const TAG_COLORS = {
   'CLAUDE':     'green',
@@ -23,9 +24,9 @@ function getTagColor(tag) {
   return TAG_COLORS[tag] || 'dim'
 }
 
-function AwaitingCard({ project }) {
+function AwaitingCard({ project, index }) {
   return (
-    <div className="project-card project-card-awaiting">
+    <div className="project-card project-card-awaiting" style={{ '--reveal-i': index }}>
       <div className="card-header">
         <span className="card-ref">{project.ref}</span>
         <span className="card-status status-awaiting">AWAITING_DATA</span>
@@ -58,9 +59,9 @@ function AwaitingCard({ project }) {
   )
 }
 
-function ProjectCard({ project, onClick }) {
+function ProjectCard({ project, onClick, index }) {
   if (project.awaiting) {
-    return <AwaitingCard project={project} />
+    return <AwaitingCard project={project} index={index} />
   }
 
   const statusColorMap = {
@@ -72,7 +73,15 @@ function ProjectCard({ project, onClick }) {
   const statusColor = statusColorMap[project.status] || 'dim'
 
   return (
-    <div className="project-card" onClick={() => onClick(project)}>
+    <div
+      className="project-card"
+      style={{ '--reveal-i': index }}
+      onClick={() => onClick(project)}
+      onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); onClick(project) } }}
+      role="button"
+      tabIndex={0}
+      aria-label={`Abrir proyecto ${project.title}`}
+    >
       <div className="card-header">
         <span className="card-ref">{project.ref}</span>
         <span className={`card-status status-${statusColor}`}>
@@ -115,9 +124,12 @@ function ProjectCard({ project, onClick }) {
 }
 
 export default function ProjectDirectory({ onOpenProject }) {
+  const headerRef = useReveal()
+  const gridRef = useReveal({ threshold: 0.05 })
+
   return (
     <div className="directory">
-      <div className="directory-header">
+      <div className="directory-header reveal" ref={headerRef}>
         <div className="directory-breadcrumb">DIR: /VAR/PROJECTS/ACTIVE</div>
         <div className="directory-title-row">
           <h2 className="directory-title">PROJECT DIRECTORY</h2>
@@ -127,9 +139,9 @@ export default function ProjectDirectory({ onOpenProject }) {
         </div>
       </div>
 
-      <div className="directory-grid">
-        {projects.map(p => (
-          <ProjectCard key={p.id} project={p} onClick={onOpenProject} />
+      <div className="directory-grid reveal-stagger" ref={gridRef}>
+        {projects.map((p, i) => (
+          <ProjectCard key={p.id} project={p} index={i} onClick={onOpenProject} />
         ))}
       </div>
 
